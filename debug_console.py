@@ -44,6 +44,9 @@ def _read_loop(port):
                 cycle_output += ch
         if thiscycle != lastcycle:
             print()
+        if thiscycle == lastcycle:
+            # we got no data; yield None
+            cycle_output = None
         ch = yield thiscycle, cycle_output
         lastcycle = thiscycle
 
@@ -83,7 +86,9 @@ def main():
                 next(write_loop)
                 ch = _align_serial_reads(port)
                 cycle_count, cycle_output = read_loop.send(ch)
-                parse_cycle_output(cycle_count, cycle_output)
+                if cycle_output is not None:
+                    # Cycle output is None if it is the same cycle as last time
+                    parse_cycle_output(cycle_count, cycle_output)
         except KeyboardInterrupt:
             print('Got KeyboardInterrupt. Exiting...')
         except serial.serialutil.SerialException as exc:

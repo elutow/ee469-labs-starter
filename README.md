@@ -27,3 +27,11 @@ apio upload
 ```
 
 Alternatively, you can use Atom with `apio-ide`.
+
+## Development Notes
+
+To get verbose place & route output during builds, use the following:
+
+```sh
+apio build --verbose-nextpnr
+```

@@ -1,21 +1,24 @@
 # UW ECE/CSE 469 Labs and Final Project
 
-This branch contains the modified lab starter code. The parent branch is `upstream`.
-
 This repository contains the code for the UW EE/CSE 469 Labs and Final Project.
+
+This branch contains the modified lab starter code to work with [my forked apio](https://github.com/elutow/apio). The parent branch is `upstream`.
 
 ## Setup
 
 Requirements:
 
 * Python 3
-* Linux for x86-64 (amd64). Environment is tested on Debian 10 (buster) amd64.
+* Linux for x86-64 (amd64). This is the only supported platform at the moment because [toolchain-icestorm](https://github.com/elutow/toolchain-icestorm) is not compiling for other platforms (help wanted!)
+* TinyFPGA BX
 
-1. Follow instructions for setting up apio for TinyFPGA BX here: https://tinyfpga.com/bx/guide.html
-	* NOTE: Skip the `pip install` steps and use the below
-	* We used Python 3 when installing Python modules, e.g. on Debian: `pip3 install ...`
-2. `pip3 install -r requirements.txt`
-3. If you are setting up Atom, install `apio-ide` by typing in `FPGAwars/apio-ide` and selecting to download from git. This will fix any `apio` version incompatibility warnings.
+1. Clone this repo: `git clone https://github.com/elutow/ee469-labs-starter`
+	* NOTE: If you have existing code, you should copy them into this repo. This repo modifies some files like `SConstruct` to work with [the forked apio](https://github.com/elutow/apio).
+2. Follow instructions for setting up Python, up until the `pip install` command: https://tinyfpga.com/bx/guide.html
+3. (Optional, but highly recommended) Setup [virtualenv](https://virtualenv.pypa.io/en/latest/) or [venv](https://docs.python.org/3/library/venv.html). Then, activate the virtualenv/venv.
+	* NOTE: This will break Atom's `apio-ide`, so you will need to use the command-line instead (i.e. `apio build`, `apio upload`, etc.)
+4. `pip3 install -r requirements.txt`
+5. If you are setting up Atom, install `apio-ide` by typing in `FPGAwars/apio-ide` and selecting to download from git. This will fix any `apio` version incompatibility warnings.
 
 ## Uploading to FPGA
 

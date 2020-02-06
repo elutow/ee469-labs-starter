@@ -18,7 +18,8 @@ Requirements:
 3. (Optional, but highly recommended) Setup [virtualenv](https://virtualenv.pypa.io/en/latest/) or [venv](https://docs.python.org/3/library/venv.html). Then, activate the virtualenv/venv.
 	* NOTE: This will break Atom's `apio-ide`, so you will need to use the command-line instead (i.e. `apio build`, `apio upload`, etc.)
 4. `pip3 install -r requirements.txt`
-5. If you are setting up Atom, install `apio-ide` by typing in `FPGAwars/apio-ide` and selecting to download from git. This will fix any `apio` version incompatibility warnings.
+5. Continue following the user guide instructions after the `pip install` command: https://tinyfpga.com/bx/guide.html
+6. If you are setting up Atom, install `apio-ide` by typing in `FPGAwars/apio-ide` and selecting to download from git. This will fix any `apio` version incompatibility warnings.
 
 ## Uploading to FPGA
 

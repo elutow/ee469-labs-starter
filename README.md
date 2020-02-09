@@ -22,6 +22,7 @@ Steps:
 4. `pip3 install -r requirements.txt`
 5. Continue following the user guide instructions after the `pip install` command: https://tinyfpga.com/bx/guide.html
 6. If you are setting up Atom, install `apio-ide` by typing in `FPGAwars/apio-ide` and selecting to download from git. This will fix any `apio` version incompatibility warnings.
+7. Install dependencies for cocotb: https://cocotb.readthedocs.io/en/latest/quickstart.html#native-linux-installation
 
 ## Uploading to FPGA
 

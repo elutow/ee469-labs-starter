@@ -22,5 +22,5 @@ module cpu(
   assign debug_port5 = 8'h05;
   assign debug_port6 = 8'h06;
   assign debug_port7 = 8'h07;
-    
+
 endmodule

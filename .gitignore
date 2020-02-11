@@ -4,6 +4,9 @@
 /hardware.json
 /hardware.rpt
 
+# Python ignore
+__pycache__/
+
 # https://raw.githubusercontent.com/github/gitignore/master/Global/macOS.gitignore
 
 # General

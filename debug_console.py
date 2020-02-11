@@ -1,25 +1,21 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import sys
-
 import serial
 import tinyprog
 import usb
 
-# Adjust this number to be the number of debug bytes
-DEBUGBYTES = 7
+from cpu_output import DEBUG_BYTES, parse_cycle_output
+
 # FPGA device USB ID
 USB_ID = '1d50:6130'
 
 def _align_serial_reads(port):
-    """Ignore serial port values with 255 and align reads to DEBUGBYTES"""
+    """Ignore serial port values with 255 and align reads to DEBUG_BYTES"""
     ch=port.read(1)
     while int(ch[0]) != 255:
-        #sys.stdout.write(hex(ch[0]))
-        #sys.stdout.write("\n")
         ch=port.read(1)
-    for _ in range(DEBUGBYTES):
+    for _ in range(DEBUG_BYTES):
         ch=port.read(1)
         if int(ch[0]) != 255:
             break
@@ -37,7 +33,7 @@ def _read_loop(port):
         if thiscycle != lastcycle:
             print(f'{ch.hex()} ', end='')
             cycle_output += ch
-        for _ in range(DEBUGBYTES):
+        for _ in range(DEBUG_BYTES):
             ch=port.read(1)
             if thiscycle != lastcycle:
                 print(f'{ch.hex()} ', end='')
@@ -61,11 +57,6 @@ def _write_loop(port):
             wch = 0
         # Done writing
         yield None
-
-def parse_cycle_output(cycle_count, cycle_output):
-    """Parse one cycle output"""
-    # TODO: Implement
-    pass
 
 def main():
     ports = tinyprog.get_ports(USB_ID)

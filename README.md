@@ -8,9 +8,11 @@ This branch contains the modified lab starter code to work with [my forked apio]
 
 Requirements:
 
+* Either Linux for x86-64 (amd64) or macOS. (Help wanted to support other platforms!)
 * Python 3
-* Linux for x86-64 (amd64). This is the only supported platform at the moment because [toolchain-icestorm](https://github.com/elutow/toolchain-icestorm) is not compiling for other platforms (help wanted!)
 * TinyFPGA BX
+
+Steps:
 
 1. Clone this repo: `git clone https://github.com/elutow/ee469-labs-starter`
 	* NOTE: If you have existing code, you should copy them into this repo. This repo modifies some files like `SConstruct` to work with [the forked apio](https://github.com/elutow/apio).

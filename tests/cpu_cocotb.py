@@ -2,6 +2,9 @@ import cocotb
 
 from cpu_output import DEBUG_BYTES, parse_cycle_output
 
+# Number of CPU clock cycles to run
+NUM_CYCLES = 42
+
 @cocotb.test()
 async def test_cpu(dut):
     """Setup CPUtestbench and run a test."""
@@ -16,7 +19,8 @@ async def test_cpu(dut):
     dut.cpu_nreset <= 1
     dut._log.debug('Reset complete')
 
-    for cycle_count in range(32):
+    print("===========BEGIN PARSED DEBUG PORT OUTPUT===========")
+    for cycle_count in range(NUM_CYCLES):
         dut._log.debug(f'Running CPU cycle {cycle_count}')
         # TODO: Combine cpu_debug_port* into a single signal of DEBUG_BYTES long
         # This will require some modifications to the top module
@@ -29,3 +33,4 @@ async def test_cpu(dut):
         debug_port_bytes += dut.cpu_debug_port7.value.integer.to_bytes(DEBUG_BYTES, 'big')
         parse_cycle_output(cycle_count, debug_port_bytes)
         await clkedge
+    print("===========END PARSED DEBUG PORT OUTPUT===========")

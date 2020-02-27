@@ -2,6 +2,8 @@ import cocotb
 
 from cpu_output import DEBUG_BYTES, parse_cycle_output
 
+from _tests_common import init_posedge_clk
+
 # Number of CPU clock cycles to run
 NUM_CYCLES = 42
 
@@ -9,14 +11,13 @@ NUM_CYCLES = 42
 async def test_cpu(dut):
     """Run cpu normally and process debug port outputs"""
 
-    # Start clock running in background
-    cocotb.fork(Clock(dut.cpu_clk, 10, 'us').start(start_high=False))
-    clkedge = RisingEdge(dut.cpu_clk)
+    clkedge = init_posedge_clk(dut.cpu_clk)
 
     # Reset CPU
     dut.cpu_nreset <= 0
     await clkedge
     dut.cpu_nreset <= 1
+    await clkedge
     dut._log.debug('Reset complete')
 
     print("===========BEGIN PARSED DEBUG PORT OUTPUT===========")

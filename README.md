@@ -67,7 +67,7 @@ At this time, there are some caveats with cocotb + Verilator:
 
 * All tests run back-to-back, so any values written or signals set will stay until the test is done.
 * The `dut` is actually `cocotb_dut`, which is an auto-generated Verilog file stored in `tests/gen/cocotb_dut.sv`. It automatically finds all modules defined in `.sv` files inside `cpu` and attaches them with all their signals to `cocotb_dut`. All signal names are prefixed with the module name.
-* You can only access top-level signals; no access to internal submodules or signals.
+* You can only access top-level signals; no access to internal submodules or signals. However, `apio sim` will show all internal signals and memory values.
 * `cocotb_dut` is generated with `tests/generate_cocotb_dut.py`, which has some additional restrictions on how you write your modules:
 	* There must be exactly one module per `.sv` file; otherwise the first one is used.
 	* All I/O must be within the parenthesis of `module NAME(...)`

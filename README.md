@@ -47,17 +47,22 @@ Tests are written in cocotb with the Verilator backend. To run the cocotb tests:
 apio verify
 ```
 
+NOTE: `apio verify` may return with `SUCCESS` even if some tests failed. See the summary printed by `cocotb` near the end, and scroll up further in the output for more details.
+
 To show the waveform from the tests (requires GTKwave to be installed):
 
 ```sh
 apio sim
 ```
 
-## Development Notes
+## Development
 
-### Tips
+### Getting Started
 
-* Use `apio lint`, `apio verify`, and `apio build --verbose-yosys` often to validate your design
+1. Start coding your design under `cpu`. The "top-level module" for your design is `cpu/cpu.sv`, which is instantiated by the true top-level module in `top.v`
+2. Start writing cocotb testbenches under `tests`. See [Writing cocotb tests](#writing-cocotb-tests)
+3. Modify `cpu_output.py` to parse your USB debug port output into a human-readable format. There are some helper functions to parse the data in the file.
+4. Use `apio lint`, `apio verify`, and `apio build --verbose-yosys` often to validate your design
 
 ### Writing cocotb tests
 
@@ -76,6 +81,15 @@ At this time, there are some caveats with cocotb + Verilator:
 cocotb also supports a number of other simulators including ModelSim and IVerilog, but the code here supports only Verilator.
 
 cocotb documentation: https://cocotb.readthedocs.io/en/latest/quickstart.html#creating-a-test
+
+### Increasing debug port width
+
+In these steps, let `NEW_WIDTH` be the number of bytes you want to have for your debug port. By default, `NEW_WIDTH = 7`.
+
+1. Add debug byte signals to `cpu/cpu.sv` and `top.v` until you have `NEW_WIDTH` bytes.
+2. In `top.v`, change `localparam debug_bytes = 8` to `NEW_WIDTH + 1`. (This is because one byte is reserved for the CPU clock cycle count)
+3. In `cpu_output.py`, change `DEBUG_BYTES` to have the value `NEW_WIDTH`.
+4. In `tests/cpu_cocotb.py`, change the `test_cpu` function so that the `debug_port_bytes` variable contains `NEW_WIDTH` bytes (just copy and modify the existing lines containing `debug_port_bytes += dut.cpu_debug_port...`)
 
 ### Debugging internal signals
 

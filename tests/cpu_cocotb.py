@@ -25,13 +25,13 @@ async def test_cpu(dut):
         dut._log.debug(f'Running CPU cycle {cycle_count}')
         # TODO: Combine cpu_debug_port* into a single signal of DEBUG_BYTES long
         # This will require some modifications to the top module
-        debug_port_bytes = dut.cpu_debug_port1.value.integer.to_bytes(DEBUG_BYTES, 'big')
-        debug_port_bytes += dut.cpu_debug_port2.value.integer.to_bytes(DEBUG_BYTES, 'big')
-        debug_port_bytes += dut.cpu_debug_port3.value.integer.to_bytes(DEBUG_BYTES, 'big')
-        debug_port_bytes += dut.cpu_debug_port4.value.integer.to_bytes(DEBUG_BYTES, 'big')
-        debug_port_bytes += dut.cpu_debug_port5.value.integer.to_bytes(DEBUG_BYTES, 'big')
-        debug_port_bytes += dut.cpu_debug_port6.value.integer.to_bytes(DEBUG_BYTES, 'big')
-        debug_port_bytes += dut.cpu_debug_port7.value.integer.to_bytes(DEBUG_BYTES, 'big')
+        debug_port_bytes = dut.cpu_debug_port1.value.integer.to_bytes(1, 'big')
+        debug_port_bytes += dut.cpu_debug_port2.value.integer.to_bytes(1, 'big')
+        debug_port_bytes += dut.cpu_debug_port3.value.integer.to_bytes(1, 'big')
+        debug_port_bytes += dut.cpu_debug_port4.value.integer.to_bytes(1, 'big')
+        debug_port_bytes += dut.cpu_debug_port5.value.integer.to_bytes(1, 'big')
+        debug_port_bytes += dut.cpu_debug_port6.value.integer.to_bytes(1, 'big')
+        debug_port_bytes += dut.cpu_debug_port7.value.integer.to_bytes(1, 'big')
         parse_cycle_output(cycle_count, debug_port_bytes)
         await clkedge
     print("===========END PARSED DEBUG PORT OUTPUT===========")

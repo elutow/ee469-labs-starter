@@ -7,7 +7,7 @@ NUM_CYCLES = 42
 
 @cocotb.test()
 async def test_cpu(dut):
-    """Setup CPUtestbench and run a test."""
+    """Run cpu normally and process debug port outputs"""
 
     # Start clock running in background
     cocotb.fork(Clock(dut.cpu_clk, 10, 'us').start(start_high=False))

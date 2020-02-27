@@ -55,6 +55,30 @@ apio sim
 
 ## Development Notes
 
+### Tips
+
+* Use `apio lint`, `apio verify`, and `apio build --verbose-yosys` often to validate your design
+
+### Writing cocotb tests
+
+All cocotb tests live in `tests` with the suffix `_cocotb.py`. The file `tests/cpu_cocotb.py` contains a test that simulates running the FPGA and processing the USB debug port output.
+
+At this time, there are some caveats with cocotb + Verilator:
+
+* All tests run back-to-back, so any values written or signals set will stay until the test is done.
+* The `dut` is actually `cocotb_dut`, which is an auto-generated Verilog file stored in `tests/gen/cocotb_dut.sv`. It automatically finds all modules defined in `.sv` files inside `cpu` and attaches them with all their signals to `cocotb_dut`. All signal names are prefixed with the module name.
+* You can only access top-level signals; no access to internal submodules or signals.
+* `cocotb_dut` is generated with `tests/generate_cocotb_dut.py`, which has some additional restrictions on how you write your modules:
+	* There must be exactly one module per `.sv` file; otherwise the first one is used.
+	* All I/O must be within the parenthesis of `module NAME(...)`
+	* I/O entries of the same type cannot be grouped, e.g. `input one, two` is not supported
+
+cocotb also supports a number of other simulators including ModelSim and IVerilog, but the code here supports only Verilator.
+
+cocotb documentation: https://cocotb.readthedocs.io/en/latest/quickstart.html#creating-a-test
+
+### Increase synthesis verbosity
+
 To get verbose compilation & synthesis output during builds (and statistics of FPGA resources used), add the `--verbose-yosys` flag to `apio build`.
 
 To get verbose place & route output during builds, add the `--verbose-nextpnr` flag to `apio build`.

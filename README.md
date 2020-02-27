@@ -67,7 +67,7 @@ At this time, there are some caveats with cocotb + Verilator:
 
 * All tests run back-to-back, so any values written or signals set will stay until the test is done.
 * The `dut` is actually `cocotb_dut`, which is an auto-generated Verilog file stored in `tests/gen/cocotb_dut.sv`. It automatically finds all modules defined in `.sv` files inside `cpu` and attaches them with all their signals to `cocotb_dut`. All signal names are prefixed with the module name.
-* You can only access top-level signals; no access to internal submodules or signals. However, `apio sim` will show all internal signals and memory values.
+* You can only access top-level signals; no access to internal submodules or signals. See the section [Debugging internal signals](#debugging-internal-signals) below for workarounds.
 * `cocotb_dut` is generated with `tests/generate_cocotb_dut.py`, which has some additional restrictions on how you write your modules:
 	* There must be exactly one module per `.sv` file; otherwise the first one is used.
 	* All I/O must be within the parenthesis of `module NAME(...)`
@@ -76,6 +76,26 @@ At this time, there are some caveats with cocotb + Verilator:
 cocotb also supports a number of other simulators including ModelSim and IVerilog, but the code here supports only Verilator.
 
 cocotb documentation: https://cocotb.readthedocs.io/en/latest/quickstart.html#creating-a-test
+
+### Debugging internal signals
+
+There are two ways to debug internal signals with cocotb + Verilator:
+
+1. Use `apio sim`. The waveform is produced from running all cocotb tests back-to-back.
+2. Use SystemVerilog `$display`, `$error`, and `assert` (immediate assertions only) statements in your Verilog code. This code configures Verilator to check these assertions while cocotb tests are running. However, since yosys doesn't support these statements\*, you will want to guard your checks like so:
+
+	```verilog
+	`ifndef SYNTHESIS
+		$display("Hello world!");
+		assert(2'b10 + 2'b10 == 2'b100) else begin
+			$error("Oh no");
+		end
+	`endif // SYNTHESIS
+	```
+
+	You can place these anywhere, such as inside `initial`, `always_comb` or `always_ff` blocks.
+
+\* yosys technically does support these statements with the `-formal` flag, but it's not very useful without something like SymbiYosys installed (a formal verification tool).
 
 ### Increase synthesis verbosity
 
